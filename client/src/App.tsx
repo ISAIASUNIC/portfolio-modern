@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CartProvider } from "./contexts/CartContext";
 import { OrderProvider } from "./contexts/OrderContext";
+import { CouponProvider } from "./contexts/CouponContext";
 import Navigation from "./components/Navigation";
 import FloatingCart from "./components/FloatingCart";
 import DeliveryHome from "./pages/DeliveryHome";
@@ -35,18 +36,20 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <CartProvider>
-          <OrderProvider>
-            <TooltipProvider>
-              <Toaster />
-              <div className="bg-slate-900 text-slate-100 overflow-x-hidden">
-                <Navigation />
-                <main>
-                  <Router />
-                </main>
-                <FloatingCart />
-              </div>
-            </TooltipProvider>
-          </OrderProvider>
+          <CouponProvider>
+            <OrderProvider>
+              <TooltipProvider>
+                <Toaster />
+                <div className="bg-slate-900 text-slate-100 overflow-x-hidden">
+                  <Navigation />
+                  <main>
+                    <Router />
+                  </main>
+                  <FloatingCart />
+                </div>
+              </TooltipProvider>
+            </OrderProvider>
+          </CouponProvider>
         </CartProvider>
       </ThemeProvider>
     </ErrorBoundary>

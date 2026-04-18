@@ -13,7 +13,7 @@ interface PaymentFormProps {
  * Design: Modern payment options with glassmorphism
  */
 export default function PaymentForm({ onSubmit }: PaymentFormProps) {
-  const [selectedMethod, setSelectedMethod] = useState<'card' | 'pix' | 'cash'>('card');
+  const [selectedMethod, setSelectedMethod] = useState<'card' | 'debit' | 'pix' | 'cash'>('card');
   const [cardData, setCardData] = useState({
     cardNumber: '',
     cardName: '',
@@ -38,7 +38,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (selectedMethod === 'card' && !validateCard()) {
+    if ((selectedMethod === 'card' || selectedMethod === 'debit') && !validateCard()) {
       return;
     }
 
@@ -89,6 +89,12 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
       description: 'Visa, Mastercard, Elo',
     },
     {
+      id: 'debit',
+      name: 'Cartão de Débito',
+      icon: CreditCard,
+      description: 'Débito em conta',
+    },
+    {
       id: 'pix',
       name: 'PIX',
       icon: Zap,
@@ -119,7 +125,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
               key={id}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setSelectedMethod(id as 'card' | 'pix' | 'cash')}
+              onClick={() => setSelectedMethod(id as 'card' | 'debit' | 'pix' | 'cash')}
               className={`p-4 rounded-lg border-2 transition-all duration-300 ${
                 selectedMethod === id
                   ? 'border-cyan-400 bg-cyan-500/10'
@@ -137,7 +143,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
         </div>
 
         {/* Card Form */}
-        {selectedMethod === 'card' && (
+        {(selectedMethod === 'card' || selectedMethod === 'debit') && (
           <motion.form
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -239,7 +245,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
               type="submit"
               className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-outfit font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
             >
-              Continuar para Revisão
+              {selectedMethod === 'debit' ? 'Continuar com Débito' : 'Continuar para Revisão'}
             </motion.button>
           </motion.form>
         )}

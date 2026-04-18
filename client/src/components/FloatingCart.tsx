@@ -2,6 +2,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, X, Plus, Minus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
+import { useCoupon } from '@/contexts/CouponContext';
+import CouponInput from './CouponInput';
 
 /**
  * Floating Cart Component
@@ -10,7 +12,13 @@ import { useCart } from '@/contexts/CartContext';
  */
 export default function FloatingCart() {
   const { items, removeItem, updateQuantity, total } = useCart();
+  const { appliedCoupon, discountAmount, calculateDiscount } = useCoupon();
   const [isOpen, setIsOpen] = useState(false);
+  
+  const subtotal = total;
+  const discount = calculateDiscount(subtotal);
+  const deliveryFee = 5;
+  const finalTotal = subtotal - discount + deliveryFee;
 
   return (
     <>
@@ -140,19 +148,32 @@ export default function FloatingCart() {
               {/* Footer */}
               {items.length > 0 && (
                 <div className="border-t border-slate-700/50 p-6 space-y-4">
+                  {/* Coupon Input */}
+                  <CouponInput />
+                  
                   <div className="space-y-2">
                     <div className="flex justify-between text-slate-400 font-outfit">
                       <span>Subtotal</span>
-                      <span>R$ {total.toFixed(2)}</span>
+                      <span>R$ {subtotal.toFixed(2)}</span>
                     </div>
+                    {discount > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        className="flex justify-between text-green-400 font-outfit font-semibold"
+                      >
+                        <span>Desconto ({appliedCoupon?.code})</span>
+                        <span>-R$ {discount.toFixed(2)}</span>
+                      </motion.div>
+                    )}
                     <div className="flex justify-between text-slate-400 font-outfit">
                       <span>Taxa de entrega</span>
-                      <span>R$ 5,00</span>
+                      <span>R$ {deliveryFee.toFixed(2)}</span>
                     </div>
                     <div className="h-px bg-slate-700/50" />
                     <div className="flex justify-between text-white font-poppins font-bold text-lg">
                       <span>Total</span>
-                      <span>R$ {(total + 5).toFixed(2)}</span>
+                      <span>R$ {finalTotal.toFixed(2)}</span>
                     </div>
                   </div>
 

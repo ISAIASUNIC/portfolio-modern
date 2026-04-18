@@ -11,7 +11,7 @@ export interface Address {
 }
 
 export interface PaymentMethod {
-  type: 'card' | 'pix' | 'cash';
+  type: 'card' | 'debit' | 'pix' | 'cash';
   details?: {
     cardNumber?: string;
     cardName?: string;
