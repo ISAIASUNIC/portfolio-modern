@@ -17,7 +17,7 @@ export default function RestaurantMenu() {
     name: 'Sakura Sushi',
     rating: 4.8,
     reviews: 342,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/sushi-platter-premium-9FsmqQUJsDFr9a9HWpCYMx.webp',
   };
 
   const categories = [
@@ -35,7 +35,7 @@ export default function RestaurantMenu() {
         description: '6 peças de sushi com salmão fresco',
         price: 45.90,
         rating: 4.9,
-        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/sushi-platter-premium-9FsmqQUJsDFr9a9HWpCYMx.webp',
       },
       {
         id: 's2',
@@ -43,7 +43,7 @@ export default function RestaurantMenu() {
         description: '6 peças de sushi com atum fresco',
         price: 42.90,
         rating: 4.8,
-        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/sushi-platter-premium-9FsmqQUJsDFr9a9HWpCYMx.webp',
       },
       {
         id: 's3',
@@ -51,7 +51,7 @@ export default function RestaurantMenu() {
         description: '8 peças variadas com salmão, atum e peixe branco',
         price: 52.90,
         rating: 4.7,
-        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/sushi-platter-premium-9FsmqQUJsDFr9a9HWpCYMx.webp',
       },
     ],
     rolls: [
@@ -61,7 +61,7 @@ export default function RestaurantMenu() {
         description: 'Salmão, cream cheese, pepino e abacate',
         price: 38.90,
         rating: 4.9,
-        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/sushi-platter-premium-9FsmqQUJsDFr9a9HWpCYMx.webp',
       },
       {
         id: 'r2',
@@ -69,7 +69,7 @@ export default function RestaurantMenu() {
         description: 'Atum, abacate, pepino e gergelim',
         price: 42.90,
         rating: 4.8,
-        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/sushi-platter-premium-9FsmqQUJsDFr9a9HWpCYMx.webp',
       },
     ],
     combos: [
@@ -79,7 +79,7 @@ export default function RestaurantMenu() {
         description: '12 sushi + 8 rolls + 2 bebidas',
         price: 89.90,
         rating: 4.9,
-        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/sushi-platter-premium-9FsmqQUJsDFr9a9HWpCYMx.webp',
       },
     ],
     drinks: [
@@ -89,7 +89,7 @@ export default function RestaurantMenu() {
         description: 'Chá verde gelado',
         price: 8.90,
         rating: 4.6,
-        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/code-abstract-tech-hTR927RogMnvsjDysRdUF6.webp',
+        image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/ramen-bowl-steaming-2EJEWn5vH5Qe6PHLGbRMNC.webp',
       },
     ],
   };
