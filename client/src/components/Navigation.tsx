@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X, Moon, Sun, MapPin } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { motion } from 'framer-motion';
 
 /**
- * Navigation Component
- * Modern sticky navigation with theme toggle and mobile menu
+ * Navigation Component - Delivery App
+ * Modern sticky navigation with location and theme toggle
  * Design: Minimalist with glassmorphism effect
  */
 export default function Navigation() {
@@ -13,10 +13,10 @@ export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
 
   const navItems = [
-    { label: 'Sobre', href: '#about' },
-    { label: 'Projetos', href: '#projects' },
-    { label: 'Habilidades', href: '#skills' },
-    { label: 'Contato', href: '#contact' },
+    { label: 'Home', href: '#' },
+    { label: 'Restaurantes', href: '#' },
+    { label: 'Pedidos', href: '#' },
+    { label: 'Favoritos', href: '#' },
   ];
 
   return (
@@ -32,8 +32,14 @@ export default function Navigation() {
           whileHover={{ scale: 1.05 }}
           className="text-2xl font-poppins font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
         >
-          Portfolio
+          🍜 DeliJapa
         </motion.div>
+
+        {/* Location */}
+        <div className="hidden md:flex items-center gap-2 text-slate-300 font-outfit text-sm">
+          <MapPin size={16} className="text-cyan-400" />
+          <span>São Paulo, SP</span>
+        </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">

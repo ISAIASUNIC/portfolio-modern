@@ -1,38 +1,46 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { CartProvider } from "./contexts/CartContext";
 import Navigation from "./components/Navigation";
-import HeroSection from "./components/HeroSection";
-import AboutSection from "./components/AboutSection";
-import ProjectsSection from "./components/ProjectsSection";
-import SkillsSection from "./components/SkillsSection";
-import ContactSection from "./components/ContactSection";
-import Footer from "./components/Footer";
+import FloatingCart from "./components/FloatingCart";
+import DeliveryHome from "./pages/DeliveryHome";
+import RestaurantMenu from "./pages/RestaurantMenu";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { Route, Switch } from "wouter";
 
 /**
- * Main App Component
- * Modern portfolio with multiple sections and smooth animations
- * Design: Dark mode with glassmorphism and gradient accents
+ * Main App Component - Delivery App
+ * Modern delivery platform with restaurants, menu, and cart
+ * Design: Dark mode with glassmorphism and premium interactions
  */
+function Router() {
+  return (
+    <Switch>
+      <Route path={"/"} component={DeliveryHome} />
+      <Route path={"/restaurant/:id"} component={RestaurantMenu} />
+      {/* Final fallback route */}
+      <Route component={DeliveryHome} />
+    </Switch>
+  );
+}
+
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
-        <TooltipProvider>
-          <Toaster />
-          <div className="bg-slate-900 text-slate-100 overflow-x-hidden">
-            <Navigation />
-            <main>
-              <HeroSection />
-              <AboutSection />
-              <ProjectsSection />
-              <SkillsSection />
-              <ContactSection />
-            </main>
-            <Footer />
-          </div>
-        </TooltipProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <Toaster />
+            <div className="bg-slate-900 text-slate-100 overflow-x-hidden">
+              <Navigation />
+              <main>
+                <Router />
+              </main>
+              <FloatingCart />
+            </div>
+          </TooltipProvider>
+        </CartProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
