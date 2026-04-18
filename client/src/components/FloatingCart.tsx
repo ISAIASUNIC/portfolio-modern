@@ -159,6 +159,10 @@ export default function FloatingCart() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      setIsOpen(false);
+                      window.location.href = '/checkout';
+                    }}
                     className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-outfit font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
                   >
                     Finalizar Pedido
