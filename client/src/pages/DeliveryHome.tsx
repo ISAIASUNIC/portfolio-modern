@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Search, MapPin, Clock, Star, Flame } from 'lucide-react';
 import { useState } from 'react';
+import PromoBanner from '@/components/PromoBanner';
 
 /**
  * Delivery Home Page
@@ -148,6 +149,9 @@ export default function DeliveryHome() {
           <MapPin size={20} className="text-cyan-400" />
           <span>Entregando em: São Paulo, SP</span>
         </motion.div>
+
+        {/* Promo Banner Carousel */}
+        <PromoBanner />
 
         {/* Filters */}
         <motion.div
