@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Search, MapPin, Clock, Star, Flame } from 'lucide-react';
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 import PromoBanner from '@/components/PromoBanner';
 
 /**
@@ -253,6 +254,7 @@ export default function DeliveryHome() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => window.location.href = `/restaurant/${restaurant.id}`}
                     className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-outfit font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
                   >
                     Ver Menu

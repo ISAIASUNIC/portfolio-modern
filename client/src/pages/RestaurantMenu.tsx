@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, ShoppingCart, Plus, Minus, Star } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Plus, Minus, Star, Check } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
+import { useRoute } from 'wouter';
+import { toast } from 'sonner';
+import ProductModal from '@/components/ProductModal';
 
 /**
  * Restaurant Menu Page
@@ -9,9 +12,13 @@ import { useCart } from '@/contexts/CartContext';
  * Design: Modern menu with glassmorphism and smooth interactions
  */
 export default function RestaurantMenu() {
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
+  const [, params] = useRoute('/restaurant/:id');
   const [selectedCategory, setSelectedCategory] = useState('sushi');
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [addedItems, setAddedItems] = useState<Set<string>>(new Set());
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const restaurant = {
     name: 'Sakura Sushi',
@@ -96,6 +103,10 @@ export default function RestaurantMenu() {
 
   const handleAddToCart = (product: any) => {
     const quantity = quantities[product.id] || 1;
+    if (quantity === 0) {
+      toast.error('Selecione uma quantidade');
+      return;
+    }
     addItem({
       id: product.id,
       name: product.name,
@@ -104,7 +115,16 @@ export default function RestaurantMenu() {
       image: product.image,
       restaurantId: restaurant.name,
     });
-    setQuantities({ ...quantities, [product.id]: 0 });
+    setQuantities({ ...quantities, [product.id]: 1 });
+    setAddedItems(new Set(addedItems).add(product.id));
+    toast.success(`${product.name} adicionado ao carrinho!`);
+    setTimeout(() => {
+      setAddedItems(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(product.id);
+        return newSet;
+      });
+    }, 2000);
   };
 
   const containerVariants = {
@@ -121,8 +141,15 @@ export default function RestaurantMenu() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 pt-24 pb-12">
-      <div className="container mx-auto px-4">
+    <>
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        restaurantName={restaurant.name}
+      />
+      <div className="min-h-screen bg-slate-900 pt-24 pb-12">
+        <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -131,13 +158,14 @@ export default function RestaurantMenu() {
           className="mb-8 flex items-center justify-between"
         >
           <div className="flex items-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors"
-            >
-              <ArrowLeft size={24} className="text-cyan-400" />
-            </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.history.back()}
+            className="p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors"
+          >
+            <ArrowLeft size={24} className="text-cyan-400" />
+          </motion.button>
             <div>
               <h1 className="text-3xl font-poppins font-bold text-white">{restaurant.name}</h1>
               <div className="flex items-center gap-2 text-slate-400 font-outfit">
@@ -150,12 +178,15 @@ export default function RestaurantMenu() {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => window.location.href = '/checkout'}
             className="p-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white relative"
           >
             <ShoppingCart size={24} />
-            <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-              0
-            </span>
+            {items.length > 0 && (
+              <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                {items.length}
+              </span>
+            )}
           </motion.button>
         </motion.div>
 
@@ -195,7 +226,11 @@ export default function RestaurantMenu() {
               key={product.id}
               variants={itemVariants}
               whileHover={{ y: -8 }}
-              className="glass-dark rounded-xl overflow-hidden hover:border-cyan-400/50 transition-all duration-300"
+              onClick={() => {
+                setSelectedProduct(product);
+                setIsModalOpen(true);
+              }}
+              className="glass-dark rounded-xl overflow-hidden hover:border-cyan-400/50 transition-all duration-300 cursor-pointer"
             >
               {/* Product Image */}
               <div className="relative h-48 overflow-hidden">
@@ -262,16 +297,28 @@ export default function RestaurantMenu() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleAddToCart(product)}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-outfit font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
+                    className={`flex-1 px-4 py-2 font-outfit font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 ${
+                      addedItems.has(product.id)
+                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
+                        : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/50'
+                    }`}
                   >
-                    Adicionar
+                    {addedItems.has(product.id) ? (
+                      <>
+                        <Check size={18} />
+                        Adicionado
+                      </>
+                    ) : (
+                      'Adicionar'
+                    )}
                   </motion.button>
                 </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
