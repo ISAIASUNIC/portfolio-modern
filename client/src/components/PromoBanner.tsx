@@ -75,7 +75,11 @@ export default function PromoBanner({ items }: PromoBannerProps) {
     if (result.success) {
       setAppliedPromoId(currentIndex);
       toast.success(`Cupom ${couponCode} aplicado com sucesso!`);
-      setTimeout(() => setAppliedPromoId(null), 2000);
+      
+      // Redirecionar para checkout após 1.5 segundos
+      setTimeout(() => {
+        window.location.href = '/checkout';
+      }, 1500);
     } else {
       toast.error(result.message);
     }
