@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Zap } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Zap, Check } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useCoupon } from '@/contexts/CouponContext';
+import { toast } from 'sonner';
 
 /**
  * Promo Banner Carousel Component
@@ -15,6 +17,7 @@ interface PromoItem {
   image: string;
   color: string;
   cta: string;
+  couponCode?: string;
 }
 
 interface PromoBannerProps {
@@ -22,6 +25,9 @@ interface PromoBannerProps {
 }
 
 export default function PromoBanner({ items }: PromoBannerProps) {
+  const { applyCoupon, appliedCoupon } = useCoupon();
+  const [appliedPromoId, setAppliedPromoId] = useState<number | null>(null);
+  
   const defaultItems: PromoItem[] = [
     {
       id: 1,
@@ -31,6 +37,7 @@ export default function PromoBanner({ items }: PromoBannerProps) {
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/promo-banner-sushi-50off-itA3DeFo35mEjg9ftNbFdj.webp',
       color: 'from-cyan-500 to-blue-600',
       cta: 'Ver Oferta',
+      couponCode: 'SUSHI50',
     },
     {
       id: 2,
@@ -40,6 +47,7 @@ export default function PromoBanner({ items }: PromoBannerProps) {
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/promo-banner-ramen-combo-4AERYtn6TVCwm7EVbrn56f.webp',
       color: 'from-orange-500 to-red-600',
       cta: 'Pedir Agora',
+      couponCode: 'RAMEN30',
     },
     {
       id: 3,
@@ -49,12 +57,29 @@ export default function PromoBanner({ items }: PromoBannerProps) {
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663573025369/Xyv9EonTUbeR6pycU65psv/promo-banner-frete-gratis-iMmEdcji6NLEen5c5QgRRw.webp',
       color: 'from-green-500 to-emerald-600',
       cta: 'Aproveitar',
+      couponCode: 'FRETE10',
     },
   ];
 
   const promoItems = items || defaultItems;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
+
+  const handleApplyCoupon = (couponCode?: string) => {
+    if (!couponCode) {
+      toast.error('Cupom não disponível');
+      return;
+    }
+
+    const result = applyCoupon(couponCode);
+    if (result.success) {
+      setAppliedPromoId(currentIndex);
+      toast.success(`Cupom ${couponCode} aplicado com sucesso!`);
+      setTimeout(() => setAppliedPromoId(null), 2000);
+    } else {
+      toast.error(result.message);
+    }
+  };
 
   useEffect(() => {
     if (!autoPlay) return;
@@ -160,9 +185,21 @@ export default function PromoBanner({ items }: PromoBannerProps) {
                   transition={{ delay: 0.5 }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-6 py-3 bg-gradient-to-r ${currentItem.color} text-white font-outfit font-semibold rounded-lg hover:shadow-lg transition-all duration-300`}
+                  onClick={() => handleApplyCoupon(currentItem.couponCode)}
+                  className={`px-6 py-3 font-outfit font-semibold rounded-lg hover:shadow-lg transition-all duration-300 flex items-center gap-2 ${
+                    appliedPromoId === currentIndex
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
+                      : `bg-gradient-to-r ${currentItem.color} text-white`
+                  }`}
                 >
-                  {currentItem.cta}
+                  {appliedPromoId === currentIndex ? (
+                    <>
+                      <Check size={18} />
+                      Cupom Aplicado!
+                    </>
+                  ) : (
+                    currentItem.cta
+                  )}
                 </motion.button>
               </div>
 
