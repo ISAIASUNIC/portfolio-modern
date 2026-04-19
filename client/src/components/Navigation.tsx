@@ -13,10 +13,10 @@ export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
 
   const navItems = [
-    { label: 'Home', href: '#' },
-    { label: 'Restaurantes', href: '#' },
-    { label: 'Pedidos', href: '#' },
-    { label: 'Favoritos', href: '#' },
+    { label: 'Home', href: '/' },
+    { label: 'Restaurantes', href: '/restaurants' },
+    { label: 'Pedidos', href: '/orders' },
+    { label: 'Favoritos', href: '/favorites' },
   ];
 
   return (
@@ -44,14 +44,14 @@ export default function Navigation() {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
-            <motion.a
+            <motion.button
               key={item.label}
-              href={item.href}
+              onClick={() => (window.location.href = item.href)}
               whileHover={{ color: '#06b6d4' }}
-              className="text-slate-300 hover:text-cyan-400 transition-colors duration-300 font-outfit text-sm"
+              className="text-slate-300 hover:text-cyan-400 transition-colors duration-300 font-outfit text-sm cursor-pointer"
             >
               {item.label}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
 
@@ -97,14 +97,16 @@ export default function Navigation() {
       >
         <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
           {navItems.map((item) => (
-            <a
+            <button
               key={item.label}
-              href={item.href}
-              onClick={() => setIsOpen(false)}
-              className="text-slate-300 hover:text-cyan-400 transition-colors duration-300 font-outfit py-2"
+              onClick={() => {
+                window.location.href = item.href;
+                setIsOpen(false);
+              }}
+              className="text-slate-300 hover:text-cyan-400 transition-colors duration-300 font-outfit py-2 cursor-pointer w-full text-left"
             >
               {item.label}
-            </a>
+            </button>
           ))}
         </div>
       </motion.div>
